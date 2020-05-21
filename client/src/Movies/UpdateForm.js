@@ -44,11 +44,11 @@ const UpdateForm = (props) => {
   }
 
 
-  const removeActor = e =>{
-    e.preventDefault()
+  const removeActor = person =>{
+    // e.preventDefault()
     setMovieDetails({ 
       ...movieDetails,
-      stars: movieDetails.stars.filter(item => item !== e.target)
+      stars: movieDetails.stars.filter(item => item !== person)
     })
   }
 
@@ -113,15 +113,20 @@ const UpdateForm = (props) => {
             onChange={changeDetails}
           />
         </label> */}
+        <div>
         <p>Actors:</p>
         <ul> 
           {movieDetails.stars.map(star =>{
             return(
-              <li>
-                <button onClick={()=> removeActor}>X</button> {star}
-              </li>)})
+              <ul>
+                <li>
+                  <button onClick={()=> removeActor(star)}>Remove: {star}</button>
+                </li> 
+              </ul>
+              )})
           }
         </ul>
+        </div>
 
         <label>Add Actor:
           <input
