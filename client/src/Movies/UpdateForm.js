@@ -11,7 +11,6 @@ const blankForm = {
 
 const UpdateForm = (props) => {
   const [movieDetails, setMovieDetails] = useState(blankForm)
-  const [actors, setActors] = useState(movieDetails.stars)
   const [actorToAdd, setActorToAdd] =useState('')
   const params = useParams()
   const history = useHistory()
@@ -33,14 +32,26 @@ const UpdateForm = (props) => {
 
   const addActorToList = e =>{
     e.preventDefault()
-
-    //movieDetails.stars.push()
+    setMovieDetails({
+      ...movieDetails,
+      stars: [...movieDetails.stars, actorToAdd]
+    })
   }
 
 
   const changeActor = e => {
-    
+    setActorToAdd(e.target.value)
   }
+
+
+  const removeActor = e =>{
+    e.preventDefault()
+    setMovieDetails({ 
+      ...movieDetails,
+      stars: movieDetails.stars.filter(item => item !== e.target)
+    })
+  }
+
 
   const updateDetails = e => {
     e.preventDefault()
@@ -104,7 +115,12 @@ const UpdateForm = (props) => {
         </label> */}
         <p>Actors:</p>
         <ul> 
-          {movieDetails.stars.map(star =><li><span>X</span> {star}</li>)}
+          {movieDetails.stars.map(star =>{
+            return(
+              <li>
+                <button onClick={()=> removeActor}>X</button> {star}
+              </li>)})
+          }
         </ul>
 
         <label>Add Actor:
@@ -115,7 +131,7 @@ const UpdateForm = (props) => {
             onChange={changeActor}
           />
         </label>
-        <button>
+        <button onClick={addActorToList}>
           Add Actor
         </button>
 
