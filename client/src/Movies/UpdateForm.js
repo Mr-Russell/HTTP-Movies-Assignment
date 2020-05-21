@@ -11,6 +11,8 @@ const blankForm = {
 
 const UpdateForm = (props) => {
   const [movieDetails, setMovieDetails] = useState(blankForm)
+  const [actors, setActors] = useState(movieDetails.stars)
+  const [actorToAdd, setActorToAdd] =useState('')
   const params = useParams()
   const history = useHistory()
 
@@ -21,11 +23,10 @@ const UpdateForm = (props) => {
        setMovieDetails(res.data)
       })
     .catch(err => console.log(err))
-  }, [])
+  }, [params.id])
 
 
   const changeDetails = e => {
-    e.preventDefault()
     setMovieDetails({...movieDetails, [e.target.name]:e.target.value})
   }
 
@@ -33,9 +34,13 @@ const UpdateForm = (props) => {
   const addActorToList = e =>{
     e.preventDefault()
 
-    movieDetails.stars.push()
+    //movieDetails.stars.push()
   }
 
+
+  const changeActor = e => {
+    
+  }
 
   const updateDetails = e => {
     e.preventDefault()
@@ -44,10 +49,10 @@ const UpdateForm = (props) => {
     .then(res => {
       console.log(res)
       props.setMovieList([...props.movieList, res.data])
+      history.push(`/movies/${params.id}`)
     })
     .catch(err => console.log(err))
 
-    history.push(`/movies/${params.id}`)
   }
 
 
@@ -106,6 +111,8 @@ const UpdateForm = (props) => {
           <input
             name='addActor'
             type='text'
+            value={actorToAdd}
+            onChange={changeActor}
           />
         </label>
         <button>
